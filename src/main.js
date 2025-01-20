@@ -11,5 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		_pixiApp.ticker.add(GameInstance.update, GameInstance)
 		document.getElementById('app').appendChild(_pixiApp.canvas)
 		
+		document.addEventListener('keydown', (event) => {
+			GameInstance.handlerKeyboardAction.bind(GameInstance)(event, 'keydown')
+		})
+		document.addEventListener('keyup', (event) => {
+			GameInstance.handlerKeyboardAction.bind(GameInstance)(event, 'keyup')
+		})
 	})()
 })
