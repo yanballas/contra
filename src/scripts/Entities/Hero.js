@@ -14,6 +14,13 @@ export class Hero extends Container {
 		y: 0
 	}
 	
+	#rect = {
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0
+	}
+	
 	#directionMoveContext = {
 		left: 0,
 		right: 0,
@@ -41,7 +48,7 @@ export class Hero extends Container {
 		this.#speed.speedX = this.#movement.x * this.#speed.maxSpeed;
 		this.x += this.#speed.speedX;
 		
-		if (this.#speed.speedY > 0 && this.#stateHero === $STATESCHARTER.jump) {
+		if (this.#speed.speedY > 0 && this.isJump()) {
 			this.#stateHero = $STATESCHARTER.fall
 		}
 		
@@ -92,4 +99,16 @@ export class Hero extends Container {
 				break;
 		}
 	}
+	
+	// get rect() {
+	// 	this.#rect.x = this.x
+	// 	this.#rect.y = this.y
+	// 	this.#rect.width = this.width
+	// 	this.#rect.height = this.height
+	// 	return this.#rect
+	// }
+	//
+	// set rect(newValue) {
+	// 	return this.#rect = {...this.#rect, ...newValue}
+	// }
 }
