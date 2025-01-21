@@ -14,9 +14,17 @@ export class Game {
 		this.#hero = new Hero(40, 100)
 		this.#pixiApp.stage.addChild(this.#hero)
 		
-		this.addPlatform(new Platform(200, 300));
-		this.addPlatform(new Platform(400, 250));
-		this.addPlatform(new Platform(0, 250));
+		this.addPlatform(new Platform(100, 400));
+		this.addPlatform(new Platform(300, 400));
+		this.addPlatform(new Platform(500, 400));
+		
+		this.addPlatform(new Platform(700, 400));
+		this.addPlatform(new Platform(900, 400));
+		this.addPlatform(new Platform(300, 550));
+		
+		this.addPlatform(new Platform(0, 738));
+		this.addPlatform(new Platform(200, 738));
+		this.addPlatform(new Platform(400, 700));
 		
 		this.#platforms.forEach(platform => {
 			this.#pixiApp.stage.addChild(platform)
@@ -52,6 +60,9 @@ export class Game {
 		this.#hero.update()
 		
 		this.#platforms.forEach(platform => {
+			
+			if (this.#hero.isJump()) return
+			
 			const resultCollision = this.resultEntityCollision(this.#hero, previousPoint, platform);
 			
 			if (resultCollision.vertical) {

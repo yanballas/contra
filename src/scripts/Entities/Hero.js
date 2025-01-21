@@ -41,6 +41,10 @@ export class Hero extends Container {
 		this.#speed.speedX = this.#movement.x * this.#speed.maxSpeed;
 		this.x += this.#speed.speedX;
 		
+		if (this.#speed.speedY > 0 && this.#stateHero === $STATESCHARTER.jump) {
+			this.#stateHero = $STATESCHARTER.fall
+		}
+		
 		this.#speed.speedY += this.#gravity.gravityForce
 		this.y += this.#speed.speedY
 	}
@@ -51,9 +55,13 @@ export class Hero extends Container {
 	}
 	
 	jump() {
-		if (this.#stateHero === $STATESCHARTER.jump) return
+		if (this.#stateHero === $STATESCHARTER.jump || this.#stateHero === $STATESCHARTER.fall) return
 		this.#stateHero = $STATESCHARTER.jump
 		this.#speed.speedY -= this.#gravity.jumpForce
+	}
+	
+	isJump() {
+		return this.#stateHero === $STATESCHARTER.jump
 	}
 	
 	startMove(direction) {
