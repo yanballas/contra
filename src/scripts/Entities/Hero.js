@@ -14,13 +14,6 @@ export class Hero extends Container {
 		y: 0
 	}
 	
-	#rect = {
-		x: 0,
-		y: 0,
-		width: 0,
-		height: 0
-	}
-	
 	#directionMoveContext = {
 		left: 0,
 		right: 0,
@@ -30,7 +23,7 @@ export class Hero extends Container {
 	
 	constructor(_positionX, _positionY) {
 		super();
-		this.#gravity = new Gravity(0.01, 1.5);
+		this.#gravity = new Gravity(0.02, 2.8);
 		this.#speed = new Speed(2);
 		this.#positionX = _positionX;
 		this.#positionY = _positionY;
@@ -57,8 +50,8 @@ export class Hero extends Container {
 	}
 	
 	stay() {
-		this.#speed.speedY = 0
 		this.#stateHero = $STATESCHARTER.stay
+		this.#speed.speedY = 0
 	}
 	
 	jump() {
@@ -67,21 +60,31 @@ export class Hero extends Container {
 		this.#speed.speedY -= this.#gravity.jumpForce
 	}
 	
+	jumpDown() {
+		console.log('jump down')
+		this.#stateHero = $STATESCHARTER.jump
+		console.log(this.isJump())
+	}
+	
 	isJump() {
 		return this.#stateHero === $STATESCHARTER.jump
 	}
 	
-	startMove(direction) {
-		switch (direction) {
-			case 'ArrowLeft':
+	startMove(direction, keysMap) {
+		
+		switch (true) {
+			case direction === 'ArrowLeft':
 				this.#directionMoveContext.left = -1
 				this.#movement.x = -1
 				break;
-			case 'ArrowRight':
+			case direction === 'ArrowRight':
 				this.#directionMoveContext.right = 1
 				this.#movement.x = 1
 				break;
-			case 'ArrowUp':
+			case direction === 'Space' && keysMap.ArrowDown?.isDown:
+				this.jumpDown()
+				break;
+			case direction === 'Space':
 				this.jump()
 				break;
 		}
@@ -99,16 +102,4 @@ export class Hero extends Container {
 				break;
 		}
 	}
-	
-	// get rect() {
-	// 	this.#rect.x = this.x
-	// 	this.#rect.y = this.y
-	// 	this.#rect.width = this.width
-	// 	this.#rect.height = this.height
-	// 	return this.#rect
-	// }
-	//
-	// set rect(newValue) {
-	// 	return this.#rect = {...this.#rect, ...newValue}
-	// }
 }

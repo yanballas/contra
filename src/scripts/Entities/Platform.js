@@ -16,4 +16,8 @@ export class Platform extends Container {
 		this.addChild(view)
 	}
 	
+	addPlatform(array) {
+		array.push(this)
+	}
+	
 }
