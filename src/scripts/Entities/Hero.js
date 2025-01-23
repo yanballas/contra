@@ -42,6 +42,7 @@ export class Hero extends Container {
 		this.x += this.#speed.speedX;
 		
 		if (this.#speed.speedY > 0 && this.isJump()) {
+			console.log('down');
 			this.#stateHero = $STATESCHARTER.fall
 		}
 		
