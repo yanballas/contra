@@ -19,7 +19,10 @@ export class Hero extends Container {
 		right: 0,
 	}
 	
-	#stateHero = $STATESCHARTER.stay
+	#stateHero = $STATESCHARTER.fall
+	
+	#jumpedDownPlatform;
+	#lastPlatform;
 	
 	constructor(_positionX, _positionY) {
 		super();
@@ -28,9 +31,9 @@ export class Hero extends Container {
 		this.#positionX = _positionX;
 		this.#positionY = _positionY;
 		const view = new Graphics()
-		view.rect(0, 0, 20, 60)
+		view.rect(0, 0, 20, 90)
 		view.stroke(
-			{width: 1, color: 0xff0000}
+			{width: 1, color: 0xffff00}
 		)
 		this.x = this.#positionX
 		this.y = this.#positionY
@@ -42,7 +45,6 @@ export class Hero extends Container {
 		this.x += this.#speed.speedX;
 		
 		if (this.#speed.speedY > 0 && this.isJump()) {
-			console.log('down');
 			this.#stateHero = $STATESCHARTER.fall
 		}
 		
@@ -50,9 +52,13 @@ export class Hero extends Container {
 		this.y += this.#speed.speedY
 	}
 	
-	stay() {
+	stay(platform) {
 		this.#stateHero = $STATESCHARTER.stay
 		this.#speed.speedY = 0
+		this.y = platform.y - this.height
+		
+		this.#jumpedDownPlatform = null;
+		this.#lastPlatform = platform;
 	}
 	
 	jump() {
@@ -62,9 +68,8 @@ export class Hero extends Container {
 	}
 	
 	jumpDown() {
-		console.log('jump down')
 		this.#stateHero = $STATESCHARTER.jump
-		console.log(this.isJump())
+		this.#jumpedDownPlatform = this.#lastPlatform;
 	}
 	
 	isJump() {
@@ -102,5 +107,9 @@ export class Hero extends Container {
 				this.#movement.x = this.#directionMoveContext.left
 				break;
 		}
+	}
+	
+	get jumpedDownPlatform() {
+		return this.#jumpedDownPlatform
 	}
 }
